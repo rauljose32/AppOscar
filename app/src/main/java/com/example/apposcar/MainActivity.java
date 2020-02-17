@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
 
         editTextNome = findViewById(R.id.editTextNome);
         editTextDiretor = findViewById(R.id.editTextDiretor);
@@ -43,10 +44,16 @@ public class MainActivity extends AppCompatActivity {
         buttonSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String nome = editTextNome.getText().toString();
+                editTextNome.setText("");
                 String diretor = editTextDiretor.getText().toString();
+                editTextDiretor.setText("");
                 String categoria = editTextCategoria.getText().toString();
+                editTextCategoria.setText("");
                 cadastrarFilme(nome, diretor, categoria);
+                editTextNome.requestFocus();
+
             }
         });
 
@@ -57,23 +64,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }//method
 
     private void listaCandidatos() {
-        Gson gson = new Gson();
-        String stringJson = gson.toJson(filmes);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("json", stringJson);
-        editor.commit();
-        Intent intent = new Intent(getApplicationContext(),Indicados.class);
-        startActivity(intent);
-        finish();
+        if (!(filmes.isEmpty())) {
+            Gson gson = new Gson();
+            String stringJson = gson.toJson(filmes);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("json", stringJson);
+            editor.commit();
+            Intent intent = new Intent(getApplicationContext(), Indicados.class);
+            startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Favor Cadastrar ao menos um Filme",
+                    Toast.LENGTH_LONG).show();
+        }
 
-    }
+    }//method
 
     private void cadastrarFilme(String nome, String diretor, String categoria) {
 
-        if ((nome != null) & (diretor != null) & categoria != null) {
+        if ((!nome.isEmpty()) & (!diretor.isEmpty()) & (!categoria.isEmpty())) {
             Filme f = new Filme(nome, diretor, categoria);
             filmes.add(f);
             Toast.makeText(
@@ -86,7 +100,5 @@ public class MainActivity extends AppCompatActivity {
                     "Preencha todos os campos por favor",
                     Toast.LENGTH_SHORT).show();
         }
-
-
-    }
-}
+    }//method
+}//class

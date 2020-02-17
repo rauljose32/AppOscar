@@ -7,9 +7,18 @@
     android:orientation="vertical"
     tools:context=".Indicados">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:text="Indicados"
+        android:textAlignment="center"
+        android:textSize="23dp" />
+
     <ListView
         android:id="@+id/listViewResultado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"/>
 
 </LinearLayout>
